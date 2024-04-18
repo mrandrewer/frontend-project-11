@@ -7,9 +7,18 @@ const schema = yup.object().shape({
 
 const validate = (state) => {
   schema.validate(state.form.fields, { abortEarly: false })
+  .then(() => {
+    if(state.feeds.includes(state.form.fields.feed)) {
+      state.form.errors = { feed: {message: 'This feed is already added' } };
+      state.form.state = 'invalid';
+    } else {
+      state.form.errors = { };
+      state.form.state = 'valid';
+    }
+  })
   .catch((e) => {
-    const error =  _.keyBy(e.inner, 'path')
-    state.form.errors = { error };
+    state.form.errors = _.keyBy(e.inner, 'path');
+    state.form.state = 'invalid';
   });
 };
 

@@ -15,12 +15,14 @@ export default () => {
         }
       },
       errors: {},
-    }
+    },
+    feeds: [],
   };
 
   const elements = {
     form: document.querySelector('.rss-form'),
     input: document.getElementById('url-input'),
+    submit: document.querySelector('.rss-form button[type="submit"]'),
   }
 
   const watchedState = onChange(state, initView(elements));
@@ -31,5 +33,15 @@ export default () => {
     const { value } = e.target;
     watchedState.form.fields.feed = value.trim();
     validate(watchedState);
+  });
+
+  elements.form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (watchedState.form.fields.feed === '') {
+      return;
+    }
+    watchedState.feeds.push(watchedState.form.fields.feed);
+    watchedState.form.state = 'submitted';
+    watchedState.form.fields.feed = ''
   });
 }
