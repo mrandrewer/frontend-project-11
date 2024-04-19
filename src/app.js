@@ -1,18 +1,18 @@
-import initView from "./view.js"
-import validate from "./validation.js";
 import onChange from 'on-change';
+import initView from './view.js';
+import validate from './validation.js';
 
 export default () => {
   const state = {
     form: {
       processState: '',
       fields: {
-        feed: ''
+        feed: '',
       },
       filedsUi: {
-        touched:{
+        touched: {
           feed: false,
-        }
+        },
       },
       errors: {},
     },
@@ -23,7 +23,7 @@ export default () => {
     form: document.querySelector('.rss-form'),
     input: document.getElementById('url-input'),
     submit: document.querySelector('.rss-form button[type="submit"]'),
-  }
+  };
 
   const watchedState = onChange(state, initView(elements));
 
@@ -42,6 +42,6 @@ export default () => {
     }
     watchedState.feeds.push(watchedState.form.fields.feed);
     watchedState.form.state = 'submitted';
-    watchedState.form.fields.feed = ''
+    watchedState.form.fields.feed = '';
   });
-}
+};
