@@ -1,10 +1,8 @@
 const renderErrorsHandler = (elements, errors) => {
-  const errorMessage = errors.feed !== undefined
-    ? errors.feed.message
-    : errors.feed;
+  const errorMessage = errors !== undefined && errors.length > 0;
   if (errorMessage) {
     elements.form.classList.add('was-validated');
-    elements.input.setCustomValidity(errorMessage);
+    elements.input.setCustomValidity(errors);
     elements.input.reportValidity();
   } else {
     elements.form.classList.add('was-validated');
