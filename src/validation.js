@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import _ from 'lodash';
 
 const validate = (state, i18nextInstance) => {
   const { form } = state;
