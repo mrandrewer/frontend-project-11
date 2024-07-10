@@ -1,3 +1,5 @@
+import { container } from "webpack";
+
 const renderErrorsHandler = (elements, errors) => {
   const errorMessage = errors !== undefined && errors.length > 0;
   if (errorMessage) {
@@ -31,6 +33,13 @@ const renderFormState = (elements, state) => {
   }
 };
 
+const renderFeeds = (elements, feeds) => {
+  const container = elements.feedContainer;
+  container.innerHTML = '';
+  
+  
+};
+
 const initView = (elements) => (path, value) => {
   switch (path) {
     case 'form.errors':
@@ -39,6 +48,8 @@ const initView = (elements) => (path, value) => {
     case 'form.state':
       renderFormState(elements, value);
       break;
+    case 'feeds':
+      renderFeeds(elements, value);
     default:
       // do nothing
       break;

@@ -5,6 +5,7 @@ import initView from './view.js';
 import validate from './validation.js';
 import resources from '../locales/index.js';
 import yupLocale from '../locales/yupLocale.js';
+import addRss from './rss.js';
 
 export default () => {
   const state = {
@@ -35,6 +36,8 @@ export default () => {
     form: document.querySelector('.rss-form'),
     input: document.getElementById('url-input'),
     submit: document.querySelector('.rss-form button[type="submit"]'),
+    postsContainer: document.querySelector('.posts'), 
+    feedContainer: document.querySelector('.feeds'),
   };
 
   const watchedState = onChange(state, initView(elements));
@@ -52,7 +55,7 @@ export default () => {
     if (watchedState.form.fields.feed === '') {
       return;
     }
-    watchedState.feeds.push(watchedState.form.fields.feed);
+    addRss(watchedState.form.fields.feed, watchedState);
     watchedState.form.state = 'submitted';
     watchedState.form.fields.feed = '';
   });
