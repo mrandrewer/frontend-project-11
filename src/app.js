@@ -23,6 +23,7 @@ export default () => {
       errors: {},
     },
     feeds: [],
+    posts: [],
   };
 
   const i18nextInstance = i18n.createInstance();
@@ -55,7 +56,7 @@ export default () => {
     if (watchedState.form.fields.feed === '') {
       return;
     }
-    addRss(watchedState.form.fields.feed, watchedState);
+    addRss(watchedState.form.fields.feed, watchedState, i18nextInstance);
     watchedState.form.state = 'submitted';
     watchedState.form.fields.feed = '';
   });

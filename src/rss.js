@@ -16,7 +16,9 @@ const parseRssItem = (feedId, rssItem) => {
 };
 
 const parseRssData = (rssContent) => {
-    const xml = DOMParser.parseFromString(rssContent);
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(rssContent, 'application/xml');
+    
     const feedId = _.uniqueId();
     return {
         feed: {
@@ -36,12 +38,12 @@ const addRss = (link, state, i18nextInstance) => {
         })
         .then((feedData) => {
             data = parseRssData(feedData);
-            state.feeds.push(data.feed);
-            state.posts.push(...data.posts);
+            state.feeds = [...state.feeds, data.feed];
+            state.posts = [...state.posts, ...data.posts];
         })
         .catch((error) => {
             console.error(`Error fetching data from feed ${link}:`, error);
-            watchedState.form.error = i18nextInstance.t(`errors.${error.message}`);
+            state.form.error = i18nextInstance.t(`errors.${error.message}`);
         });
 };
 

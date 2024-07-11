@@ -53,6 +53,7 @@ const renderFeeds = (elements, feeds) => {
 };
 
 const initView = (elements) => (path, value) => {
+  console.log(path);
   switch (path) {
     case 'form.errors':
       renderErrorsHandler(elements, value);
