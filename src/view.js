@@ -1,4 +1,3 @@
-import { container } from "webpack";
 
 const renderErrorsHandler = (elements, errors) => {
   const errorMessage = errors !== undefined && errors.length > 0;
