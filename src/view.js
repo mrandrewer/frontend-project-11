@@ -43,11 +43,11 @@ const renderFeeds = (elements, feeds) => {
     </div>`;
   const list = container.querySelector('ul');
   feeds.forEach(feed => {
-    const feedHtml = `<li class="list-group-item border-0 border-end-0">
-      <h3 class="h6 m-0">${feed.title}</h3>
-      <p class="m-0 small text-black-50">${feed.description}</p>
-    </li>`
-    list.append(feedHtml);
+    const li = document.createElement('li');
+    li.className = 'list-group-item border-0 border-end-0';
+    li.innerHTML= `<h3 class="h6 m-0">${feed.title}</h3>
+      <p class="m-0 small text-black-50">${feed.description}</p>`
+    list.append(li);
   });
 
 };

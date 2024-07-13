@@ -33,11 +33,11 @@ const parseRssData = (rssContent) => {
 const addRss = (link, state, i18nextInstance) => {
     axios.get(urls.proxyAllowAll + encodeURIComponent(link))
         .then((response) => {
-            if (response.status === 200) return response.json;
+            if (response.status === 200) return response.data.contents;
             throw new Error('networkError');
         })
         .then((feedData) => {
-            data = parseRssData(feedData);
+            const data = parseRssData(feedData);
             state.feeds = [...state.feeds, data.feed];
             state.posts = [...state.posts, ...data.posts];
         })
