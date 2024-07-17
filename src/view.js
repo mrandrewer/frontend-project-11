@@ -52,6 +52,25 @@ const renderFeeds = (elements, feeds) => {
 
 };
 
+const renderPosts = (elements, posts) => {
+  const container = elements.postsContainer;
+  container.innerHTML = `<div class="card border-0">
+      <div class="card-body">
+        <h2 class="card-title h4">Посты</h2>
+      </div>
+      <ul class="list-group border-0 rounded-0">
+      </ul>
+    </div>`;
+  const list = container.querySelector('ul');
+  posts.forEach(post => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
+    li.innerHTML= `<a href="http://example.com/test/1721066340" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${post.title}</a>
+      <button type="button" class="btn btn-outline-primary btn-sm" data-id="2" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`
+    list.append(li);
+  });   
+}
+
 const initView = (elements) => (path, value) => {
   console.log(path);
   switch (path) {
@@ -63,6 +82,8 @@ const initView = (elements) => (path, value) => {
       break;
     case 'feeds':
       renderFeeds(elements, value);
+    case 'posts':
+        renderPosts(elements, value);
     default:
       // do nothing
       break;
