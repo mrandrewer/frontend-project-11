@@ -38,6 +38,7 @@ const addRss = (link, state, i18nextInstance) => {
         })
         .then((feedData) => {
             const data = parseRssData(feedData);
+            data.feed.link = link;
             state.feeds = [...state.feeds, data.feed];
             state.posts = [...state.posts, ...data.posts];
         })

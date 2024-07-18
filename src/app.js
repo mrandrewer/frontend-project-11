@@ -41,7 +41,7 @@ export default () => {
     feedContainer: document.querySelector('.feeds'),
   };
 
-  const watchedState = onChange(state, initView(elements));
+  const watchedState = onChange(state, initView(elements, i18nextInstance));
 
   elements.input.addEventListener('input', (e) => {
     e.preventDefault();

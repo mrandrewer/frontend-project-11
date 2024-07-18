@@ -5,6 +5,9 @@ export default {
     urlPlaceholder: 'RSS link',
     urlExample: 'Example: https://lorem-rss.hexlet.app/feed',
     addBtnText: 'Add',
+    postsTitle: 'Posts',
+    feedsTitle: 'Feeds',
+    feedsBtnText: 'View',
     errors: {
       required: 'This field is required',
       invalid: 'Link must be a correct URL',
