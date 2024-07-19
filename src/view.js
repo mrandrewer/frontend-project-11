@@ -72,7 +72,6 @@ const renderPosts = (elements, i18nextInstance, posts) => {
 }
 
 const initView = (elements, i18nextInstance) => (path, value) => {
-  console.log(path);
   switch (path) {
     case 'form.errors':
       renderErrorsHandler(elements, value);

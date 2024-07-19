@@ -5,7 +5,8 @@ import initView from './view.js';
 import validate from './validation.js';
 import resources from '../locales/index.js';
 import yupLocale from '../locales/yupLocale.js';
-import addRss from './rss.js';
+import { addRss, checkRssUpdate } from './rss.js';
+
 
 export default () => {
   const state = {
@@ -60,4 +61,6 @@ export default () => {
     watchedState.form.state = 'submitted';
     watchedState.form.fields.feed = '';
   });
+
+  checkRssUpdate(watchedState);
 };
