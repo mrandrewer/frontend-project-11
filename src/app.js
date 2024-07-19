@@ -7,7 +7,6 @@ import resources from '../locales/index.js';
 import yupLocale from '../locales/yupLocale.js';
 import { addRss, checkRssUpdate } from './rss.js';
 
-
 export default () => {
   const state = {
     language: 'ru',
@@ -38,7 +37,7 @@ export default () => {
     form: document.querySelector('.rss-form'),
     input: document.getElementById('url-input'),
     submit: document.querySelector('.rss-form button[type="submit"]'),
-    postsContainer: document.querySelector('.posts'), 
+    postsContainer: document.querySelector('.posts'),
     feedContainer: document.querySelector('.feeds'),
   };
 

@@ -1,4 +1,3 @@
-
 const renderErrorsHandler = (elements, errors) => {
   const errorMessage = errors !== undefined && errors.length > 0;
   if (errorMessage) {
@@ -42,14 +41,13 @@ const renderFeeds = (elements, i18nextInstance, feeds) => {
       </ul>
     </div>`;
   const list = container.querySelector('ul');
-  feeds.forEach(feed => {
+  feeds.forEach((feed) => {
     const li = document.createElement('li');
     li.className = 'list-group-item border-0 border-end-0';
-    li.innerHTML= `<h3 class="h6 m-0">${feed.title}</h3>
-      <p class="m-0 small text-black-50">${feed.description}</p>`
+    li.innerHTML = `<h3 class="h6 m-0">${feed.title}</h3>
+      <p class="m-0 small text-black-50">${feed.description}</p>`;
     list.append(li);
   });
-
 };
 
 const renderPosts = (elements, i18nextInstance, posts) => {
@@ -62,14 +60,14 @@ const renderPosts = (elements, i18nextInstance, posts) => {
       </ul>
     </div>`;
   const list = container.querySelector('ul');
-  posts.forEach(post => {
+  posts.forEach((post) => {
     const li = document.createElement('li');
     li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
-    li.innerHTML= `<a href="http://example.com/test/1721066340" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${post.title}</a>
-      <button type="button" class="btn btn-outline-primary btn-sm" data-id="2" data-bs-toggle="modal" data-bs-target="#modal">${i18nextInstance.t('feedsBtnText')}</button>`
+    li.innerHTML = `<a href="http://example.com/test/1721066340" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${post.title}</a>
+      <button type="button" class="btn btn-outline-primary btn-sm" data-id="2" data-bs-toggle="modal" data-bs-target="#modal">${i18nextInstance.t('feedsBtnText')}</button>`;
     list.append(li);
-  });   
-}
+  });
+};
 
 const initView = (elements, i18nextInstance) => (path, value) => {
   switch (path) {
@@ -81,8 +79,10 @@ const initView = (elements, i18nextInstance) => (path, value) => {
       break;
     case 'feeds':
       renderFeeds(elements, i18nextInstance, value);
+      break;
     case 'posts':
-        renderPosts(elements, i18nextInstance, value);
+      renderPosts(elements, i18nextInstance, value);
+      break;
     default:
       // do nothing
       break;
