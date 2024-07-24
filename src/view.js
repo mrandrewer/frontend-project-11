@@ -1,32 +1,60 @@
 /* eslint-disable no-param-reassign */
 
-const renderErrorsHandler = (elements, errors) => {
+const renderFeedback = (elements, feedbackState, text) => {
+  const { feedback } = elements;
+  feedback.classList.remove('text-danger');
+  feedback.classList.remove('text-success');
+  feedback.classList.remove('text-warning');
+  switch (feedbackState) {
+    case 'success':
+      feedback.classList.add('text-success');
+      feedback.textContent = text;
+      break;
+    case 'warn':
+      feedback.classList.add('text-warning');
+      feedback.textContent = text;
+      break;
+    case 'error':
+      feedback.classList.add('text-danger');
+      feedback.textContent = text;
+      break;
+    default:
+      feedback.textContent = '';
+  }
+};
+
+const renderErrors = (elements, errors, i18nextInstance) => {
   const errorMessage = errors !== undefined && errors.length > 0;
   if (errorMessage) {
     elements.form.classList.add('was-validated');
     elements.input.setCustomValidity(errors);
     elements.input.reportValidity();
+    renderFeedback(elements, 'error', i18nextInstance.t('errors.invalid'));
   } else {
     elements.form.classList.add('was-validated');
     elements.input.setCustomValidity('');
     elements.input.reportValidity();
+    renderFeedback(elements, 'error', '');
   }
 };
 
-const renderFormState = (elements, state) => {
-  const elems = elements;
+const renderFormState = (elements, state, i18nextInstance) => {
   switch (state) {
     case 'filling':
     case 'invalid':
-      elems.submit.enabled = false;
+      elements.submit.enabled = false;
       break;
     case 'valid':
-      elems.submit.enabled = true;
+      elements.submit.enabled = true;
       break;
-    case 'submitted':
-      elems.form.classList.remove('was-validated');
-      elems.submit.enabled = false;
-      elems.input.value = '';
+    case 'sending':
+      renderFeedback(elements, 'warn', i18nextInstance.t('formStateHint.sending'));
+      break;
+    case 'success':
+      elements.form.classList.remove('was-validated');
+      elements.submit.enabled = false;
+      elements.input.value = '';
+      renderFeedback(elements, 'success', i18nextInstance.t('formStateHint.success'));
       break;
     default:
       throw new Error('Unknkown form state');
@@ -113,10 +141,10 @@ const renderModal = (elements, state, selectedPostId) => {
 const initView = (elements, state, i18nextInstance) => (path, value) => {
   switch (path) {
     case 'form.errors':
-      renderErrorsHandler(elements, value);
+      renderErrors(elements, value, i18nextInstance);
       break;
     case 'form.state':
-      renderFormState(elements, value);
+      renderFormState(elements, value, i18nextInstance);
       break;
     case 'feeds':
       renderFeeds(elements, state, i18nextInstance);

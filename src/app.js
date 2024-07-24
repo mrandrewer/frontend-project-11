@@ -41,6 +41,7 @@ export default () => {
     form: document.querySelector('.rss-form'),
     input: document.getElementById('url-input'),
     submit: document.querySelector('.rss-form button[type="submit"]'),
+    feedback: document.querySelector('.feedback'),
     postsContainer: document.querySelector('.posts'),
     feedContainer: document.querySelector('.feeds'),
     modal: document.getElementById('modal'),
@@ -65,8 +66,9 @@ export default () => {
     if (watchedState.form.fields.feed === '') {
       return;
     }
+    watchedState.form.state = 'sending';
     addRss(watchedState.form.fields.feed, watchedState, i18nextInstance);
-    watchedState.form.state = 'submitted';
+    watchedState.form.state = 'success';
     watchedState.form.fields.feed = '';
   });
 

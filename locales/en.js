@@ -8,6 +8,10 @@ export default {
     postsTitle: 'Posts',
     feedsTitle: 'Feeds',
     feedsBtnText: 'View',
+    formStateHint: {
+      sending: 'RSS is loading',
+      success: 'RSS sucessfully loaded',
+    },
     errors: {
       required: 'This field is required',
       invalid: 'Link must be a correct URL',

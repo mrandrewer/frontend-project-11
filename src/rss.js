@@ -48,6 +48,7 @@ const addRss = (link, state, i18nextInstance) => {
     })
     .catch((error) => {
       console.error(`Error fetching data from feed ${link}:`, error);
+      localState.form.state = 'valid';
       localState.form.error = i18nextInstance.t(`errors.${error.message}`);
     });
 };

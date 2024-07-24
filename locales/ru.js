@@ -8,10 +8,14 @@ export default {
     postsTitle: 'Посты',
     feedsTitle: 'Фиды',
     feedsBtnText: 'Просмотр',
+    formStateHint: {
+      sending: 'RSS загружается',
+      success: 'RSS успешно загружен',
+    },
     errors: {
       required: 'Это поле - обязательное',
-      invalid: 'Ссылка должна быть кррректным URL',
-      alreadyExists: 'RSS feed уже в списке',
+      invalid: 'Ссылка должна быть коррректным URL',
+      alreadyExists: 'RSS уже существует',
     },
   },
 };
