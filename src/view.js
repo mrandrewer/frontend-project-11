@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 const renderErrorsHandler = (elements, errors) => {
   const errorMessage = errors !== undefined && errors.length > 0;
   if (errorMessage) {
@@ -31,45 +33,84 @@ const renderFormState = (elements, state) => {
   }
 };
 
-const renderFeeds = (elements, i18nextInstance, feeds) => {
-  const container = elements.feedContainer;
+const initBaseContainerList = (container, title) => {
   container.innerHTML = `<div class="card border-0">
       <div class="card-body">
-        <h2 class="card-title h4">${i18nextInstance.t('feedsTitle')}</h2>
+        <h2 class="card-title h4">${title}</h2>
       </div>
       <ul class="list-group border-0 rounded-0">
       </ul>
     </div>`;
-  const list = container.querySelector('ul');
-  feeds.forEach((feed) => {
+  return container.querySelector('ul');
+};
+
+const renderFeeds = (elements, state, i18nextInstance) => {
+  const list = initBaseContainerList(elements.feedContainer, i18nextInstance.t('feedsTitle'));
+  state.feeds.forEach((feed) => {
     const li = document.createElement('li');
     li.className = 'list-group-item border-0 border-end-0';
-    li.innerHTML = `<h3 class="h6 m-0">${feed.title}</h3>
-      <p class="m-0 small text-black-50">${feed.description}</p>`;
+    const heading = document.createElement('h3');
+    heading.className = 'h6 m-0';
+    heading.innerText = feed.title;
+    const para = document.createElement('p');
+    para.className = 'm-0 small text-black-50';
+    para.innerText = feed.description;
+    li.append(heading, para);
     list.append(li);
   });
 };
 
-const renderPosts = (elements, i18nextInstance, posts) => {
-  const container = elements.postsContainer;
-  container.innerHTML = `<div class="card border-0">
-      <div class="card-body">
-        <h2 class="card-title h4">${i18nextInstance.t('postsTitle')}</h2>
-      </div>
-      <ul class="list-group border-0 rounded-0">
-      </ul>
-    </div>`;
-  const list = container.querySelector('ul');
-  posts.forEach((post) => {
+const renderPosts = (elements, state, i18nextInstance) => {
+  const list = initBaseContainerList(elements.postsContainer, i18nextInstance.t('postsTitle'));
+  state.posts.forEach((post) => {
     const li = document.createElement('li');
     li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
-    li.innerHTML = `<a href="http://example.com/test/1721066340" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${post.title}</a>
-      <button type="button" class="btn btn-outline-primary btn-sm" data-id="2" data-bs-toggle="modal" data-bs-target="#modal">${i18nextInstance.t('feedsBtnText')}</button>`;
+
+    const link = document.createElement('a');
+    link.className = state.ui.readPostsIds.has(post.id) ? 'fw-normal' : 'fw-bold';
+    link.href = post.link;
+    link.dataset.id = post.id;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.innerText = post.title;
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn btn-outline-primary btn-sm';
+    btn.dataset.id = post.id;
+    btn.dataset.bs_toggle = 'modal';
+    btn.dataset.bs_target = '#modal';
+    btn.innerText = i18nextInstance.t('feedsBtnText');
+
+    li.append(link, btn);
     list.append(li);
   });
 };
 
-const initView = (elements, i18nextInstance) => (path, value) => {
+const renderModal = (elements, state, selectedPostId) => {
+  const {
+    modal,
+    modalTitle,
+    modalBody,
+    modalLnkReadMore,
+  } = elements;
+
+  if (selectedPostId === undefined) {
+    modal.classList.remove('show');
+    modal.style = '';
+    return;
+  }
+
+  const post = state.posts.find((p) => p.id === selectedPostId);
+  const { title, description, href } = post;
+  modalTitle.textContent = title;
+  modalBody.textContent = description;
+  modal.classList.add('show');
+  modal.style = 'display:block';
+  modalLnkReadMore.setAttribute('href', href);
+};
+
+const initView = (elements, state, i18nextInstance) => (path, value) => {
   switch (path) {
     case 'form.errors':
       renderErrorsHandler(elements, value);
@@ -78,10 +119,14 @@ const initView = (elements, i18nextInstance) => (path, value) => {
       renderFormState(elements, value);
       break;
     case 'feeds':
-      renderFeeds(elements, i18nextInstance, value);
+      renderFeeds(elements, state, i18nextInstance);
       break;
     case 'posts':
-      renderPosts(elements, i18nextInstance, value);
+    case 'ui.readPostsIds':
+      renderPosts(elements, state, i18nextInstance);
+      break;
+    case 'ui.selectedPostId':
+      renderModal(elements, state, value);
       break;
     default:
       // do nothing
