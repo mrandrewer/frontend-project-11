@@ -59,7 +59,11 @@ const addRss = (link, state, i18nextInstance) => {
     .catch((error) => {
       console.error(`Error fetching data from feed ${link}:`, error);
       localState.form.state = 'valid';
-      localState.form.errors = [i18nextInstance.t(`errors.${error.message}`)];
+      if (axios.isAxiosError(error)) {
+        localState.form.errors = [i18nextInstance.t(`errors.networkError`)];
+      } else {
+        localState.form.errors = [i18nextInstance.t(`errors.${error.message}`)];
+      }
     });
 };
 

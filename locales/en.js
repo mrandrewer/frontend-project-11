@@ -16,6 +16,7 @@ export default {
       required: 'This field is required',
       invalid: 'Link must be a correct URL',
       notRss: 'Resource does not contain valid RSS',
+      networkError: 'Network error',
       alreadyExists: 'RSS feed is already in the list',
     },
   },
