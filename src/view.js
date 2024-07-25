@@ -23,13 +23,13 @@ const renderFeedback = (elements, feedbackState, text) => {
   }
 };
 
-const renderErrors = (elements, errors, i18nextInstance) => {
+const renderErrors = (elements, errors) => {
   const errorMessage = errors !== undefined && errors.length > 0;
   if (errorMessage) {
     elements.form.classList.add('was-validated');
     elements.input.setCustomValidity(errors);
     elements.input.reportValidity();
-    renderFeedback(elements, 'error', i18nextInstance.t('errors.invalid'));
+    renderFeedback(elements, 'error', errors.join(', '));
   } else {
     elements.form.classList.add('was-validated');
     elements.input.setCustomValidity('');
@@ -141,7 +141,7 @@ const renderModal = (elements, state, selectedPostId) => {
 const initView = (elements, state, i18nextInstance) => (path, value) => {
   switch (path) {
     case 'form.errors':
-      renderErrors(elements, value, i18nextInstance);
+      renderErrors(elements, value);
       break;
     case 'form.state':
       renderFormState(elements, value, i18nextInstance);
