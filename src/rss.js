@@ -48,18 +48,18 @@ const getRss = (link) => axios.get(urls.proxyAllowAll + encodeURIComponent(link)
 
 const addRss = (link, state, i18nextInstance) => {
   const localState = state;
-  state.form.state = 'sending';
+  localState.form.state = 'sending';
   getRss(link)
     .then((data) => {
       localState.feeds = [...localState.feeds, data.feed];
       localState.posts = [...data.posts, ...localState.posts];
-      watchedState.form.state = 'success';
-      watchedState.form.fields.feed = '';
+      localState.form.state = 'success';
+      localState.form.fields.feed = '';
     })
     .catch((error) => {
       console.error(`Error fetching data from feed ${link}:`, error);
       localState.form.state = 'valid';
-      localState.form.errors = [ i18nextInstance.t(`errors.${error.message}`) ];
+      localState.form.errors = [i18nextInstance.t(`errors.${error.message}`)];
     });
 };
 
