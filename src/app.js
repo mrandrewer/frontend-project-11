@@ -66,10 +66,7 @@ export default () => {
     if (watchedState.form.fields.feed === '') {
       return;
     }
-    watchedState.form.state = 'sending';
     addRss(watchedState.form.fields.feed, watchedState, i18nextInstance);
-    watchedState.form.state = 'success';
-    watchedState.form.fields.feed = '';
   });
 
   elements.postsContainer.addEventListener('click', (e) => {

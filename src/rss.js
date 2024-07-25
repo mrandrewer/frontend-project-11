@@ -17,6 +17,13 @@ const parseRssData = (rssContent) => {
   const parser = new DOMParser();
   const xml = parser.parseFromString(rssContent, 'application/xml');
 
+  const parseError = xml.querySelector('parsererror');
+  if (parseError) {
+    const error = new Error('notRss');
+    error.isParsingError = true;
+    throw error;
+  }
+
   const feedId = _.uniqueId();
   return {
     feed: {
@@ -41,15 +48,18 @@ const getRss = (link) => axios.get(urls.proxyAllowAll + encodeURIComponent(link)
 
 const addRss = (link, state, i18nextInstance) => {
   const localState = state;
+  state.form.state = 'sending';
   getRss(link)
     .then((data) => {
       localState.feeds = [...localState.feeds, data.feed];
       localState.posts = [...data.posts, ...localState.posts];
+      watchedState.form.state = 'success';
+      watchedState.form.fields.feed = '';
     })
     .catch((error) => {
       console.error(`Error fetching data from feed ${link}:`, error);
       localState.form.state = 'valid';
-      localState.form.error = i18nextInstance.t(`errors.${error.message}`);
+      localState.form.errors = [ i18nextInstance.t(`errors.${error.message}`) ];
     });
 };
 

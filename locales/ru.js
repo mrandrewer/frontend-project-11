@@ -15,6 +15,7 @@ export default {
     errors: {
       required: 'Это поле - обязательное',
       invalid: 'Ссылка должна быть валидным URL',
+      notRss: 'Ресурс не содержит валидный RSS',
       alreadyExists: 'RSS уже существует',
     },
   },
