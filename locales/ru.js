@@ -14,7 +14,7 @@ export default {
     },
     errors: {
       required: 'Это поле - обязательное',
-      invalid: 'Ссылка должна быть коррректным URL',
+      invalid: 'Ссылка должна быть валидным URL',
       alreadyExists: 'RSS уже существует',
     },
   },
